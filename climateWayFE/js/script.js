@@ -101,18 +101,6 @@ function generateChart(locator, xLabel, yLabel, chartType, dataY) {
             }
         }
     });
-    /*if(dataY[0] == "Vento"){
-
-          d3.selectAll('circle')
-          .each(function(d,i){
-            // clear tick contents and replace with image
-            var self = d3.select(this);
-            self.selectAll("*").remove();
-            self.append('i')
-              .attr("class", "wi wi-wind towards-50-deg")
-        });
-
-      }*/
 }
 
 var lastChartModal = "";
@@ -155,14 +143,6 @@ function drop(ev, ui) {
     var weatherVarName = document.getElementById(gridNumber).getElementsByClassName('location-font')[0].innerText;
     var sensor_code = document.getElementById(gridNumber).getAttribute('data-sensor');
     getWeatherData(gridNumber, weatherVarName, sensor_code, ev.currentTarget.id);
-
-    // var dataX = data[0];
-    // var dataY = data[1];
-    // if (ev.currentTarget.id == "timeSeriesArea5") {
-    //     generateTimeSeriesChartFullView(ev.currentTarget.id, "area", dataY);
-    // } else {
-    //     generateTimeSeriesChart(ev.currentTarget.id, "area", dataY);
-    // }
 }
 
 function windDirection() {
@@ -463,6 +443,26 @@ function loadTableDate() {
 
 $(document).ready(function() {
     loadTableDate();
+});
+
+$("#dayslist a").click(function (e) {
+  e.preventDefault()
+  $(this).tab('show')
+  if (changeDate === 0) {
+        changeDate = 1;
+        generateLightnessBar(200);
+    } else {
+        changeDate = 0;
+        generateLightnessBar(560);
+    }
+    loadTableDate();
+})
+
+$( "li[role='presentation'] a" ).each(function( index ) {
+    var now = new Date();
+    now.setDate(now.getDate() + index - 6);
+    now = $.format.date(now, "dd/MM/yyyy");
+    this.append(now);
 });
 
 /*function generateChart(locator) {

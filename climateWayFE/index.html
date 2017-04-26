@@ -27,26 +27,26 @@
 		body {
 			font: 10px sans-serif;
 		}
-
+		
 		.axis path,
 		.axis line {
 			fill: none;
 			stroke: #000;
 			shape-rendering: crispEdges;
 		}
-
+		
 		.bar {
 			fill: orange;
 		}
-
+		
 		.bar:hover {
 			fill: orangered;
 		}
-
+		
 		.x.axis path {
 			display: none;
 		}
-
+		
 		.d3-tip {
 			line-height: 1;
 			font-weight: bold;
@@ -56,7 +56,7 @@
 			border-radius: 2px;
 		}
 		/* Creates a small triangle extender for the tooltip */
-
+		
 		.d3-tip:after {
 			box-sizing: border-box;
 			display: inline;
@@ -69,26 +69,26 @@
 			text-align: center;
 		}
 		/* Style northward tooltips differently */
-
+		
 		.d3-tip.n:after {
 			margin: -1px 0 0 0;
 			top: 100%;
 			left: 0;
 		}
-
+		
 		.line {
 			fill: none;
 			stroke: steelblue;
 			stroke-width: 1.5px;
 		}
-
+		
 		.grid path,
 		.grid line {
 			fill: none;
 			stroke: rgba(0, 0, 0, 0.25);
 			shape-rendering: crispEdges;
 		}
-
+		
 		.table {
 			display: table;
 			border-collapse: separate;
@@ -96,7 +96,7 @@
 			border: 1px solid red;
 			margin-top: 100px;
 		}
-
+		
 		.svg-container {
 			display: inline-block;
 			position: relative;
@@ -106,23 +106,23 @@
 			vertical-align: top;
 			overflow: hidden;
 		}
-
+		
 		.grid-charts {
 			width: 100%;
 			margin-left: 50px;
 		}
-
+		
 		.svg-content-responsive {
 			display: inline-block;
 			position: absolute;
 			top: 10px;
 			left: 0;
 		}
-
+		
 		td:hover {
 			background-color: #C0C0C0;
 		}
-
+		
 		#timeSeriesArea1,
 		#timeSeriesArea2,
 		#timeSeriesArea3,
@@ -132,14 +132,14 @@
 			height: 200px;
 			border: 1px solid #aaaaaa;
 		}
-
+		
 		#timeSeriesArea5 {
 			margin-top: 20px;
 			width: 950px;
 			height: 800px;
 			border: 1px solid #aaaaaa;
 		}
-
+		
 		.drag-text {
 			text-align: center;
 			vertical-align: middle;
@@ -147,25 +147,25 @@
 			font-family: Impact, Charcoal, sans-serif;
 			font-size: 30px;
 		}
-
+		
 		.larger-icon {
 			font-size: 40px;
 			position: absolute;
 		}
-
+		
 		.celcius-icon {
 			color: #FFFFFF;
 		}
-
+		
 		.celcius-data {
 			display: inline;
 		}
-
+		
 		.celcius-cell {
 			background-color: #3399ff;
 			width: 250px;
 		}
-
+		
 		.weather-icon {
 			font-size: 50px;
 			padding-left: 130px;
@@ -173,7 +173,7 @@
 			color: #FFFFFF;
 			position: absolute;
 		}
-
+		
 		.wind-icon {
 			font-size: 80px;
 			color: #FFFFFF;
@@ -182,7 +182,7 @@
 			padding-top: 20px;
 			position: absolute;
 		}
-
+		
 		.chemistry-icon {
 			font-size: 30px;
 			color: #FFFFFF;
@@ -190,20 +190,20 @@
 			padding-top: 40px;
 			position: absolute;
 		}
-
+		
 		.location-font {
 			font-size: 20px;
 			color: #FFFFFF;
 			font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 		}
-
+		
 		.celcius-font {
 			display: inline;
 			font-size: 25px;
 			color: #FFFFFF;
 			font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 		}
-
+		
 		.units-font {
 			font-size: 15px;
 			color: #FFFFFF;
@@ -213,24 +213,45 @@
 </head>
 
 <body>
-
 	<div>
-		<div style="padding-top:40px; padding-left: 50px; position:absolute;">
-			<div class="row">
-				<div class="col-sm-2">
-					<h3>Weather Workstation</h3>
-				</div>
-				<div class="col-sm-2">
-					<div class="form-group">
-						<div class="input-group date" id="datetimepicker1">
-							<input type="text" class="form-control" />
-							<span class="input-group-addon">
-		                    <span class="glyphicon glyphicon-calendar"></span>
-							</span>
-						</div>
+		<ul class="nav nav-tabs" id="dayslist" role="tablist">
+			<li role="presentation"><a href="#dayone" aria-controls="dayone" role="tab" data-toggle="tab"></a></li>
+			<li role="presentation"><a href="#daytwo" aria-controls="daytwo" role="tab" data-toggle="tab"></a></li>
+			<li role="presentation"><a href="#daythree" aria-controls="daythree" role="tab" data-toggle="tab"></a></li>
+			<li role="presentation"><a href="#dayfour" aria-controls="dayfour" role="tab" data-toggle="tab"></a></li>
+			<li role="presentation"><a href="#dayfive" aria-controls="dayfive" role="tab" data-toggle="tab"></a></li>
+			<li role="presentation"><a href="#daysix" aria-controls="daysix" role="tab" data-toggle="tab"></a></li>
+			<li role="presentation" class="active"><a href="#dayseven" aria-controls="dayseven" role="tab" data-toggle="tab"></a></li>
+			<div class="col-sm-2">
+				<div class="form-group">
+					<div class="input-group date" id="datetimepicker1">
+						<input type="text" class="form-control" />
+						<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+						</span>
 					</div>
 				</div>
-				<div class="col-sm-1">
+			</div>
+		</ul>
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane fade" id="dayone"></div>
+			<div role="tabpanel" class="tab-pane fade" id="daytwo"></div>
+			<div role="tabpanel" class="tab-pane fade" id="daythree"></div>
+			<div role="tabpanel" class="tab-pane fade" id="dayfour"></div>
+			<div role="tabpanel" class="tab-pane fade" id="dayfive"></div>
+			<div role="tabpanel" class="tab-pane fade" id="daysix"></div>
+			<div role="tabpanel" class="tab-pane fade in active" id="dayseven"></div>
+		</div>
+
+	</div>
+
+	<div>
+		<div style="padding-top:20px; padding-left: 50px; position:absolute;">
+			<div class="row">
+				<div class="col-md-8">
+					<h3>Weather Workstation</h3>
+				</div>
+				<div class="col-md-4">
 					Full View<input type="checkbox" name="my-checkbox" checked>
 				</div>
 			</div>
