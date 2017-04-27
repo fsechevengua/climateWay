@@ -26,12 +26,10 @@ app.all('/*', function(req, res, next) {
     next();
 });
 
-// Definir a route principal
 app.get('/', function(req, res) {
     res.send('Welcome to API');
 });
-//{"createdAt" : { $gte : new ISODate("2012-01-12T20:15:31Z") }}
-// Definir um endpoint da API
+
 app.post('/weatherData', function(req, res, next) {
     var responseData = {};
     var records = [];

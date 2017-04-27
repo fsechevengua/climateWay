@@ -24,15 +24,10 @@
 	<link href="css/bootstrap-switch.min.css" rel="stylesheet">
 
 	<style>
-		body {
-			font: 10px sans-serif;
-		}
-		
 		.axis path,
 		.axis line {
 			fill: none;
 			stroke: #000;
-			shape-rendering: crispEdges;
 		}
 		
 		.bar {
@@ -61,7 +56,6 @@
 			box-sizing: border-box;
 			display: inline;
 			font-size: 10px;
-			width: 100%;
 			line-height: 1;
 			color: rgba(0, 0, 0, 0.8);
 			content: "\25BC";
@@ -86,7 +80,6 @@
 		.grid line {
 			fill: none;
 			stroke: rgba(0, 0, 0, 0.25);
-			shape-rendering: crispEdges;
 		}
 		
 		.table {
@@ -94,7 +87,7 @@
 			border-collapse: separate;
 			border-color: grey;
 			border: 1px solid red;
-			margin-top: 100px;
+			margin-top: 20px;
 		}
 		
 		.svg-container {
@@ -136,7 +129,7 @@
 		#timeSeriesArea5 {
 			margin-top: 20px;
 			width: 950px;
-			height: 800px;
+			height: 600px;
 			border: 1px solid #aaaaaa;
 		}
 		
@@ -209,29 +202,74 @@
 			color: #FFFFFF;
 			font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 		}
+		
+		.station-title {
+			padding-top: 20px;
+			padding-left: 50px;
+			margin-bottom: 50px;
+			background: #74AFAD;
+		}
+		
+		.nav-tabs>li {
+			float: none;
+			display: inline-block;
+			zoom: 1;
+		}
+		
+		.nav-tabs {
+			text-align: center;
+		}
 	</style>
 </head>
 
 <body>
-	<div>
-		<ul class="nav nav-tabs" id="dayslist" role="tablist">
-			<li role="presentation"><a href="#dayone" aria-controls="dayone" role="tab" data-toggle="tab"></a></li>
-			<li role="presentation"><a href="#daytwo" aria-controls="daytwo" role="tab" data-toggle="tab"></a></li>
-			<li role="presentation"><a href="#daythree" aria-controls="daythree" role="tab" data-toggle="tab"></a></li>
-			<li role="presentation"><a href="#dayfour" aria-controls="dayfour" role="tab" data-toggle="tab"></a></li>
-			<li role="presentation"><a href="#dayfive" aria-controls="dayfive" role="tab" data-toggle="tab"></a></li>
-			<li role="presentation"><a href="#daysix" aria-controls="daysix" role="tab" data-toggle="tab"></a></li>
-			<li role="presentation" class="active"><a href="#dayseven" aria-controls="dayseven" role="tab" data-toggle="tab"></a></li>
-			<div class="col-sm-2">
-				<div class="form-group">
-					<div class="input-group date" id="datetimepicker1">
-						<input type="text" class="form-control" />
-						<span class="input-group-addon">
-						<span class="glyphicon glyphicon-calendar"></span>
-						</span>
-					</div>
+	<div class="station-title">
+		<div class="row">
+			<div class="text-center">
+				<h2>Weather Workstation</h3>
+			</div>
+			<!--	<div class="col-md-4"> 
+				Full View<input type="checkbox" name="my-checkbox" checked>
+			</div> -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-5">
+		</div>
+		<div class="col-sm-2">
+			<div class="form-group">
+				<div class="input-group date" id="datetimepicker1">
+					<input type="text" class="form-control" />
+					<span class="input-group-addon">
+				<span class="glyphicon glyphicon-calendar"></span>
+					</span>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div>
+		<ul class="nav nav-tabs" id="dayslist" role="tablist">
+			<li role="presentation">
+				<a href="#dayone" aria-controls="dayone" role="tab" data-toggle="tab"></a>
+			</li>
+			<li role="presentation">
+				<a href="#daytwo" aria-controls="daytwo" role="tab" data-toggle="tab"></a>
+			</li>
+			<li role="presentation">
+				<a href="#daythree" aria-controls="daythree" role="tab" data-toggle="tab"></a>
+			</li>
+			<li role="presentation">
+				<a href="#dayfour" aria-controls="dayfour" role="tab" data-toggle="tab"></a>
+			</li>
+			<li role="presentation">
+				<a href="#dayfive" aria-controls="dayfive" role="tab" data-toggle="tab"></a>
+			</li>
+			<li role="presentation">
+				<a href="#daysix" aria-controls="daysix" role="tab" data-toggle="tab"></a>
+			</li>
+			<li role="presentation" class="active">
+				<a href="#dayseven" aria-controls="dayseven" role="tab" data-toggle="tab"></a>
+			</li>
 		</ul>
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane fade" id="dayone"></div>
@@ -242,178 +280,177 @@
 			<div role="tabpanel" class="tab-pane fade" id="daysix"></div>
 			<div role="tabpanel" class="tab-pane fade in active" id="dayseven"></div>
 		</div>
-
 	</div>
+	<!--<div class="col-sm-2">
+				<div class="form-group">
+					<div class="input-group date" id="datetimepicker1">
+						<input type="text" class="form-control" />
+						<span class="input-group-addon">
+						<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			</div>-->
+	<div style="float:left">
+		<table class="table table-bordered grid-charts">
+			<tbody>
+				<tr height="150px" width="150px">
+					<td id="grid0" data-sensor="2" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Temperatura</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font celcius-data"></div>
+							<i class="larger-icon celcius-icon wi wi-celsius"></i>
+							<i class="weather-icon wi wi-thermometer"></i>
+						</div>
+					</td>
+					<td id="grid1" data-sensor="3" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Pressao Atmosférica</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font pressure-data"></div>
+							<i class="units-font">bar</i>
+							<i class="weather-icon wi wi-barometer"></i>
+						</div>
+					</td>
+					<td id="grid2" data-sensor="4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Umidade relativa do ar</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font humidity-data"></div>
+							<i class="weather-icon wi wi-humidity"></i>
+						</div>
+					</td>
 
-	<div>
-		<div style="padding-top:20px; padding-left: 50px; position:absolute;">
-			<div class="row">
-				<div class="col-md-8">
-					<h3>Weather Workstation</h3>
-				</div>
-				<div class="col-md-4">
-					Full View<input type="checkbox" name="my-checkbox" checked>
-				</div>
+				</tr>
+				<tr height="150px">
+					<td id="grid3" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Vento</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font wind-direction-data"></div>
+							<i class="larger-icon celcius-icon wi wi-degrees"></i>
+							<i class="wind-icon wi wi-wind towards-90-deg"></i>
+						</div>
+						<div class="celcius-font wind-speed-data"></div>
+						<i class="units-font">m/s</i>
+					</td>
+					<td id="grid4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Luminosidade</div>
+						<div style="margin-left:60px" class="progress-bar"></div>
+						<div style="padding-top:20px">
+							<div class="celcius-font luminocity-data"></div>
+							<i class="weather-icon wi wi-day-sunny"></i>
+						</div>
+						<div class="celcius-font uv-data"></div>
+						<i class="units-font">UV</i>
+					</td>
+					<td id="grid5" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Concentração de CO2</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font co2-data"></div>
+							<i class="units-font">ppm</i>
+							<i class="chemistry-icon">CO2</i>
+						</div>
+					</td>
+				</tr>
+				<tr height="150px">
+					<td id="grid6" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Concentração de SO2</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font so2-data"></div>
+							<i class="units-font">ppm</i>
+							<i class="chemistry-icon">S02</i>
+						</div>
+					</td>
+					<td id="grid7" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Material Particulado</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font pm-data"></div>
+							<i class="units-font">ppm</i>
+							<i class="chemistry-icon">PM</i>
+						</div>
+					</td>
+					<td id="grid8" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Nível da Água</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font water-level-data"></div>
+							<i class="units-font">m</i>
+							<i class="weather-icon wi wi-flood"></i>
+						</div>
+					</td>
+				</tr>
+				<tr height="150px">
+					<td id="grid9" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Precipitação</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font pricipitation-data"></div>
+							<i class="units-font">mm</i>
+							<i class="weather-icon wi wi-raindrop"></i>
+						</div>
+					</td>
+					<td id="grid10" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+						<div class="location-font">Concentração de CO</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font co-data"></div>
+							<i class="units-font">ppm</i>
+							<i class="chemistry-icon">CO</i>
+						</div>
+					</td>
+					<td class="center-chart celcius-cell">
+						<div class="location-font">Chuva</div>
+						<div style="padding-top:30px">
+							<div class="celcius-font raining-data"></div>
+							<i class="weather-icon wi wi-showers"></i>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div style="float:right; margin-right: 90px;">
+		<div class="chart-area">
+			<div id="timeSeriesArea5" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class='drag-text'>Drag Here to generate chart</div>
 			</div>
-		</div>
-		<div style="float:left">
-			<table class="table table-bordered grid-charts">
-				<tbody>
-					<tr height="150px" width="150px">
-						<td id="grid0" data-sensor="2" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Temperatura</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font celcius-data"></div>
-								<i class="larger-icon celcius-icon wi wi-celsius"></i>
-								<i class="weather-icon wi wi-thermometer"></i>
-							</div>
-						</td>
-						<td id="grid1" data-sensor="3" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Pressao Atmosférica</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font pressure-data"></div>
-								<i class="units-font">bar</i>
-								<i class="weather-icon wi wi-barometer"></i>
-							</div>
-						</td>
-						<td id="grid2" data-sensor="4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Umidade relativa do ar</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font humidity-data"></div>
-								<i class="weather-icon wi wi-humidity"></i>
-							</div>
-						</td>
-
-					</tr>
-					<tr height="150px">
-						<td id="grid3" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Vento</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font wind-direction-data"></div>
-								<i class="larger-icon celcius-icon wi wi-degrees"></i>
-								<i class="wind-icon wi wi-wind towards-90-deg"></i>
-							</div>
-							<div class="celcius-font wind-speed-data"></div>
-							<i class="units-font">m/s</i>
-						</td>
-						<td id="grid4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Luminosidade</div>
-							<div style="margin-left:60px" class="progress-bar"></div>
-							<div style="padding-top:20px">
-								<div class="celcius-font luminocity-data"></div>
-								<i class="weather-icon wi wi-day-sunny"></i>
-							</div>
-							<div class="celcius-font uv-data"></div>
-							<i class="units-font">UV</i>
-						</td>
-						<td id="grid5" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Concentração de CO2</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font co2-data"></div>
-								<i class="units-font">ppm</i>
-								<i class="chemistry-icon">CO2</i>
-							</div>
-						</td>
-					</tr>
-					<tr height="150px">
-						<td id="grid6" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Concentração de SO2</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font so2-data"></div>
-								<i class="units-font">ppm</i>
-								<i class="chemistry-icon">S02</i>
-							</div>
-						</td>
-						<td id="grid7" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Material Particulado</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font pm-data"></div>
-								<i class="units-font">ppm</i>
-								<i class="chemistry-icon">PM</i>
-							</div>
-						</td>
-						<td id="grid8" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Nível da Água</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font water-level-data"></div>
-								<i class="units-font">m</i>
-								<i class="weather-icon wi wi-flood"></i>
-							</div>
-						</td>
-					</tr>
-					<tr height="150px">
-						<td id="grid9" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Precipitação</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font pricipitation-data"></div>
-								<i class="units-font">mm</i>
-								<i class="weather-icon wi wi-raindrop"></i>
-							</div>
-						</td>
-						<td id="grid10" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
-							<div class="location-font">Concentração de CO</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font co-data"></div>
-								<i class="units-font">ppm</i>
-								<i class="chemistry-icon">CO</i>
-							</div>
-						</td>
-						<td class="center-chart celcius-cell">
-							<div class="location-font">Chuva</div>
-							<div style="padding-top:30px">
-								<div class="celcius-font raining-data"></div>
-								<i class="weather-icon wi wi-showers"></i>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div style="float:right; margin-right: 90px; margin-top: 80px;">
-			<div class="chart-area">
-				<div id="timeSeriesArea1" ondrop="drop(event)" ondragover="allowDrop(event)">
-					<div class="drag-text">Drag Here to generate chart</div>
-				</div>
-
-				<div id="timeSeriesArea2" ondrop="drop(event)" ondragover="allowDrop(event)">
-					<div class="drag-text">Drag Here to generate chart</div>
-				</div>
-
-				<div id="timeSeriesArea3" ondrop="drop(event)" ondragover="allowDrop(event)">
-					<div class="drag-text">Drag Here to generate chart</div>
-				</div>
-
-				<div id="timeSeriesArea4" ondrop="drop(event)" ondragover="allowDrop(event)">
-					<div class="drag-text">Drag Here to generate chart</div>
-				</div>
+			<!--<div id="timeSeriesArea1" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="drag-text">Drag Here to generate chart</div>
 			</div>
-			<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-				<div class="modal-dialog modal-lg" role="document">
-					<div class="modal-content" style="width: 1000px; height: 800px;">
-						<div class="modal-header">
-							<div class="col-sm-6">
-								<h1 class="chart-name"></h1>
-							</div>
-							<div class="col-sm-5">
-								<div class="btn btn-mini" style="float:right;">
-									<select class="form-control chart-type">
-				      			<option value="area">Line chart</option>
-				      			<option value="bar">Bar chart</option>
-				      			<option value="spline">Spline chart</option>
-				      		</select>
-								</div>
-							</div>
-							<div class="col-sm-1">
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+			<div id="timeSeriesArea2" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="drag-text">Drag Here to generate chart</div>
+			</div>
+
+			<div id="timeSeriesArea3" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="drag-text">Drag Here to generate chart</div>
+			</div>
+
+			<div id="timeSeriesArea4" ondrop="drop(event)" ondragover="allowDrop(event)">
+				<div class="drag-text">Drag Here to generate chart</div>
+			</div>-->
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content" style="width: 1000px; height: 800px;">
+					<div class="modal-header">
+						<div class="col-sm-6">
+							<h1 class="chart-name"></h1>
+						</div>
+						<div class="col-sm-5">
+							<div class="btn btn-mini" style="float:right;">
+								<select class="form-control chart-type">
+							<option value="area">Line chart</option>
+							<option value="bar">Bar chart</option>
+							<option value="spline">Spline chart</option>
+						</select>
 							</div>
 						</div>
-						<div class="modal-body">
-							<div id="chart">
-								<script type="text/javascript" src="js/script.js"></script>
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-							</div>
+						<div class="col-sm-1">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						</div>
+					</div>
+					<div class="modal-body">
+						<div id="chart">
+							<script type="text/javascript" src="js/script.js"></script>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>

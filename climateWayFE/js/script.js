@@ -109,11 +109,11 @@ $("#myModal").on('show.bs.modal', function(event) {
 
     d3.select("#chart svg").remove();
     var data = getWeatherData(event.relatedTarget.id);
-    var dataX = data[0];
-    var dataY = data[1];
-    $('.chart-name').html(dataY[0]);
-    lastChartModal = event.relatedTarget.id;
-    generateChart("#chart", "Tempo", dataY[0], 'area', dataY);
+   // var dataX = data[0];
+    //var dataY = data[1];
+    //$('.chart-name').html(dataY[0]);
+    //lastChartModal = event.relatedTarget.id;
+    //generateChart("#chart", "Tempo", dataY[0], 'area', dataY);
 });
 
 $(".chart-type").on('change', function() {
