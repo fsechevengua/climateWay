@@ -130,14 +130,13 @@
 			margin-top: 20px;
 			width: 950px;
 			height: 600px;
+			text-align: center;
 			border: 1px solid #aaaaaa;
 		}
 		
 		.drag-text {
-			text-align: center;
-			vertical-align: middle;
-			line-height: 200px;
-			font-family: Impact, Charcoal, sans-serif;
+			line-height: 600px;
+  			text-align: center;
 			font-size: 30px;
 		}
 		
@@ -155,7 +154,7 @@
 		}
 		
 		.celcius-cell {
-			background-color: #3399ff;
+			background-color: #3c3636;
 			width: 250px;
 		}
 		
@@ -170,7 +169,6 @@
 		.wind-icon {
 			font-size: 80px;
 			color: #FFFFFF;
-			padding-left: 130px;
 			padding-right: 130px;
 			padding-top: 20px;
 			position: absolute;
@@ -219,6 +217,22 @@
 		.nav-tabs {
 			text-align: center;
 		}
+
+		.glyphicon-refresh-animate {
+			-animation: spin 1s infinite linear;
+			-webkit-animation: spin2 1s infinite linear;
+		}
+
+		@-webkit-keyframes spin2 {
+			from { -webkit-transform: rotate(0deg);}
+			to { -webkit-transform: rotate(360deg);}
+		}
+
+		@keyframes spin {
+			from { transform: scale(1) rotate(0deg);}
+			to { transform: scale(1) rotate(360deg);}
+		}
+
 	</style>
 </head>
 
@@ -300,23 +314,26 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font celcius-data"></div>
 							<i class="larger-icon celcius-icon wi wi-celsius"></i>
-							<i class="weather-icon wi wi-thermometer"></i>
+							<!--<i class="weather-icon wi wi-thermometer"></i>-->
 						</div>
+						<div id="minicharttest0"></div>
 					</td>
 					<td id="grid1" data-sensor="3" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Pressao Atmosférica</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font pressure-data"></div>
 							<i class="units-font">bar</i>
-							<i class="weather-icon wi wi-barometer"></i>
+							<!--<i class="weather-icon wi wi-barometer"></i>-->
 						</div>
+						<div id="minicharttest1"></div>
 					</td>
 					<td id="grid2" data-sensor="4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Umidade relativa do ar</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font humidity-data"></div>
-							<i class="weather-icon wi wi-humidity"></i>
+							<!--<i class="weather-icon wi wi-humidity"></i>-->
 						</div>
+						<div id="minicharttest2"></div>
 					</td>
 
 				</tr>
@@ -328,26 +345,29 @@
 							<i class="larger-icon celcius-icon wi wi-degrees"></i>
 							<i class="wind-icon wi wi-wind towards-90-deg"></i>
 						</div>
-						<div class="celcius-font wind-speed-data"></div>
-						<i class="units-font">m/s</i>
+						<!--<div class="celcius-font wind-speed-data"></div>-->
+						<!--<i class="units-font">m/s</i>-->
+						<div id="minicharttest3"></div>
 					</td>
 					<td id="grid4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Luminosidade</div>
 						<div style="margin-left:60px" class="progress-bar"></div>
 						<div style="padding-top:20px">
 							<div class="celcius-font luminocity-data"></div>
-							<i class="weather-icon wi wi-day-sunny"></i>
+							<!--<i class="weather-icon wi wi-day-sunny"></i>-->
 						</div>
 						<div class="celcius-font uv-data"></div>
 						<i class="units-font">UV</i>
+						<div id="minicharttest4"></div>
 					</td>
 					<td id="grid5" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Concentração de CO2</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font co2-data"></div>
 							<i class="units-font">ppm</i>
-							<i class="chemistry-icon">CO2</i>
+							<!--<i class="chemistry-icon">CO2</i>-->
 						</div>
+						<div id="minicharttest5"></div>
 					</td>
 				</tr>
 				<tr height="150px">
@@ -356,24 +376,27 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font so2-data"></div>
 							<i class="units-font">ppm</i>
-							<i class="chemistry-icon">S02</i>
+							<!--<i class="chemistry-icon">S02</i>-->
 						</div>
+						<div id="minicharttest6"></div>
 					</td>
 					<td id="grid7" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Material Particulado</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font pm-data"></div>
 							<i class="units-font">ppm</i>
-							<i class="chemistry-icon">PM</i>
+							<!--<i class="chemistry-icon">PM</i>-->
 						</div>
+						<div id="minicharttest7"></div>
 					</td>
 					<td id="grid8" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Nível da Água</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font water-level-data"></div>
 							<i class="units-font">m</i>
-							<i class="weather-icon wi wi-flood"></i>
+							<!--<i class="weather-icon wi wi-flood"></i>-->
 						</div>
+						<div id="minicharttest8"></div>
 					</td>
 				</tr>
 				<tr height="150px">
@@ -382,22 +405,24 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font pricipitation-data"></div>
 							<i class="units-font">mm</i>
-							<i class="weather-icon wi wi-raindrop"></i>
+							<!--<i class="weather-icon wi wi-raindrop"></i>-->
 						</div>
+						<div id="minicharttest9"></div>
 					</td>
 					<td id="grid10" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Concentração de CO</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font co-data"></div>
 							<i class="units-font">ppm</i>
-							<i class="chemistry-icon">CO</i>
+							<!--<i class="chemistry-icon">CO</i>-->
 						</div>
+						<div id="minicharttest10"></div>
 					</td>
 					<td class="center-chart celcius-cell">
 						<div class="location-font">Chuva</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font raining-data"></div>
-							<i class="weather-icon wi wi-showers"></i>
+							<!--<i class="weather-icon wi wi-showers"></i>-->
 						</div>
 					</td>
 				</tr>
@@ -406,8 +431,8 @@
 	</div>
 	<div style="float:right; margin-right: 90px;">
 		<div class="chart-area">
-			<div id="timeSeriesArea5" ondrop="drop(event)" ondragover="allowDrop(event)">
-				<div class='drag-text'>Drag Here to generate chart</div>
+			<div id="timeSeriesArea5" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag-text">
+				<span>Drag Here to generate chart</span>
 			</div>
 			<!--<div id="timeSeriesArea1" ondrop="drop(event)" ondragover="allowDrop(event)">
 				<div class="drag-text">Drag Here to generate chart</div>

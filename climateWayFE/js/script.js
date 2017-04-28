@@ -139,6 +139,7 @@ function drag(ev) {
 
 function drop(ev, ui) {
     ev.preventDefault();
+    $('.chart-area').html("<div id=\"timeSeriesArea5\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\" class=\"drag-text\"><span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></div>");
     var gridNumber = ev.dataTransfer.getData("text");
     var weatherVarName = document.getElementById(gridNumber).getElementsByClassName('location-font')[0].innerText;
     var sensor_code = document.getElementById(gridNumber).getAttribute('data-sensor');
@@ -464,6 +465,45 @@ $( "li[role='presentation'] a" ).each(function( index ) {
     now = $.format.date(now, "dd/MM/yyyy");
     this.append(now);
 });
+
+function generateMiniCharts(){
+    var colors = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5'];
+    for(i=0; i < 12; i++){
+        var minichart = c3.generate({
+            bindto: "#minicharttest" + i,
+            size: {
+                height: 60,
+                width: 200
+            },
+            data: {
+                columns: [
+                    ['sample', 30, 200, 100, 400, 150, 250]
+                ],
+                type: 'area-spline',
+            },
+            axis:{
+                x:{
+                    show:false
+                },
+                y:{
+                    show:false
+                }
+            },
+            legend: {
+                show: false
+            },
+            color: {
+                pattern: [colors[Math.floor(Math.random()*colors.length)]]
+            },
+            point: {
+                show: false
+            }
+            
+        });
+    }
+}
+generateMiniCharts();
+
 
 /*function generateChart(locator) {
     var margin = {top: 40, right: 20, bottom: 30, left: 40},
