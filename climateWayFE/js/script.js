@@ -1,5 +1,6 @@
 // var dataX = ['x', '2016-06-26 17:00:00', '2016-06-26 17:10:00', '2016-06-26 17:20:00', '2016-06-26 17:30:00', '2016-06-26 17:40:00', '2016-06-26 17:50:00', '2016-06-26 18:00:00', '2016-06-26 18:10:00', '2016-06-26 18:20:00', '2016-06-26 18:30:00', '2016-06-26 18:40:00', '2016-06-26 18:50:00', '2016-06-26 19:00:00', '2016-06-26 19:10:00', '2016-06-26 19:20:00', '2016-06-26 19:30:00', '2016-06-26 19:40:00', '2016-06-26 19:50:00', '2016-06-26 20:00:00', '2016-06-26 20:10:00', '2016-06-26 20:20:00', '2016-06-26 20:30:00', '2016-06-26 20:40:00', '2016-06-26 20:50:00', '2016-06-26 21:00:00'];
-var dataX = ['x', '00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00'];
+//var dataX = ['x', '00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00'];
+var dataX = ['x'];
 var weatherDate = $.format.date(new Date(), "yyyy-MM-dd");
 
 function generateTimeSeriesChart(DropAreaId, chartType, dataY) {
@@ -35,16 +36,22 @@ function generateTimeSeriesChart(DropAreaId, chartType, dataY) {
     });
 }
 
-var dataYFullView = [dataX];
+var viewData = [];
 
 function generateTimeSeriesChartFullView(DropAreaId, chartType, dataY) {
-    dataYFullView.push(dataY);
+    viewData = [dataX];
+    var dataYAux = dataY.slice();
+    var dataWihoutLabel = dataYAux.splice(1, dataYAux.length);
+    viewData.push(dataY);
+    console.log(Math.max.apply(Math, dataWihoutLabel));
+    console.log(Math.min.apply(Math, dataWihoutLabel));
+
     var chart = c3.generate({
         bindto: "#" + DropAreaId,
         data: {
             x: 'x',
-            xFormat: '%Y-%m-%d %H:%M:%S',
-            columns: dataYFullView,
+            xFormat: '%H:%M',
+            columns: viewData
         },
         zoom: {
             enabled: true
@@ -52,10 +59,14 @@ function generateTimeSeriesChartFullView(DropAreaId, chartType, dataY) {
         axis: {
             x: {
                 type: 'timeseries',
-                localtime: false,
+                localtime: true,
                 tick: {
                     format: '%H:%M'
                 },
+            y: {
+                max: Math.max.apply(Math, dataWihoutLabel) + 1,
+                min: Math.min.apply(Math, dataWihoutLabel),
+                }
             }
         }
     });
@@ -214,13 +225,15 @@ $(document).ready(function() {
 
 document.addEventListener("getWeatherData", function(e) {
     var result = e.detail;
-    var dataY = result.payload;
+    var dataY = result.data;
+    dataX = dataX.concat(result.dates);
 
     if (result.target == "timeSeriesArea5") {
         generateTimeSeriesChartFullView(result.target , "area", dataY);
     } else {
         generateTimeSeriesChart(result.target , "area", dataY);
     }
+    $("#timeSeriesArea5").removeClass("drag-text");
 });
 
 function getWeatherData(chartId, weatherVarName, sensor_code, target) {
@@ -237,13 +250,15 @@ function getWeatherData(chartId, weatherVarName, sensor_code, target) {
     var weatherName = weatherVarName;
     var weatherDataPromise = Promise.resolve(weatherDataCall).then(function(data){
         var resObject = {
-            payload : [weatherName],
+            data : [weatherName],
+            dates:  [],
             target : ""
         };
         resObject.target = targetCellDrop;
         resObject.name = weatherName;
         data.payload.forEach(function(result) {
-            resObject.payload.push(result.payload);
+            resObject.data.push(result.payload);
+            resObject.dates.push($.format.date(result.ts, "HH:mm"));
         });
 
         //Trigger event to send data to create chart
@@ -251,84 +266,6 @@ function getWeatherData(chartId, weatherVarName, sensor_code, target) {
         document.dispatchEvent(event);
     }, function(value) {
     });
-
-    //console.log(weatherDataPromise);
-
-    // if (changeDate === 0) {
-    //     switch (chartId) {
-    //         case "grid0":
-    //             //dataY = [weatherVarName, 29, 30, 29, 28, 28, 27, 28, 29, 28, 29, 30, 31, 30, 29, 29, 29, 29, 29, 29, 30, 28, 27, 29, 29];
-    //             break;
-    //         case "grid1":
-    //             dataY = ['Pressão atmostérica', 1.02123, 1.02321, 1.02213, 1.023133, 1.023131, 1.023113, 1.0300001, 1.023123, 1.0131231, 1.013, 1.0200124, 1.0215454, 1.021545455, 1.0215454545, 1.0288, 1.0214547, 1.02152424, 1.022454, 1.02154542477, 1.02154587, 1.0215454121, 1.0215, 1.021548787, 1.021545465];
-    //             break;
-    //         case "grid2":
-    //             dataY = ['Umidade Relativa do Ar', 94, 90, 89, 85, 83, 80, 81, 82, 81, 87, 90, 92, 92, 93, 97, 95, 94, 91, 94, 94, 94, 94, 94, 94];
-    //             break;
-    //         case "grid3":
-    //             dataY = ['Vento', 11.6546, 11.564654, 11.6546, 13.564, 12.87987, 12.1321, 12.00123, 11.13213, 11.3213213, 11.321321, 11.212313, 11.3213, 11.32132132, 11.21, 11.232321, 11.546546, 11.65464, 11.77567, 11.7657, 11.564654, 11.231321, 11.321321, 11.34234324];
-    //             break;
-    //         case "grid4":
-    //             dataY = ['UV', 3.23132, 3.231123, 3.6544, 3.321321, 3.13211, 3.31231, 3.321, 3.1231, 3.31321, 3.31321, 3.1321, 3.32131, 3.231321, 2.65464, 2.54654, 2.564654, 2.45464, 2.123132, 2.41111, 2.1213, 2.3212, 2.321321, 2.32131, 2.321321];
-    //             break;
-    //         case "grid5":
-    //             dataY = ['CO2', 320, 323, 323, 322, 323, 322, 325, 330, 330, 331, 332, 332, 335, 334, 334, 333, 331, 330, 329, 331, 332, 331, 332, 330];
-    //             break;
-    //         case "grid6":
-    //             dataY = ['SO2', 321, 329, 327, 322, 323, 322, 325, 330, 330, 339, 332, 332, 345, 334, 334, 333, 331, 330, 329, 331, 332, 331, 332, 330];
-    //             break;
-    //         case "grid7":
-    //             dataY = ['Material Particulado', 321, 329, 327, 322, 323, 322, 325, 330, 330, 339, 332, 332, 345, 334, 334, 333, 331, 330, 329, 331, 332, 331, 332, 330];
-    //             break;
-    //         case "grid8":
-    //             dataY = ['Nível da Agua', 12.5454, 12.21321, 12.4654, 12.65464, 12.321231, 12.321321, 12.21321, 12.1321123, 12.5454, 12.21321, 12.4654, 12.5454, 12.21321, 12.4654, 12.987987, 12.65464, 12.5646, 12.65465, 12.7879, 12.7897, 12.798798, 12.8979, 12.7987, 12.87987];
-    //             break;
-    //         case "grid9":
-    //             dataY = ['Precipitação', 1.02123, 1.02321, 1.02213, 1.023133, 1.023131, 1.023113, 1.0300001, 1.023123, 1.0131231, 1.013, 1.0200124, 1.0215454, 1.021545455, 1.0215454545, 1.0288, 1.0214547, 1.02152424, 1.022454, 1.02154542477, 1.02154587, 1.0215454121, 1.0215, 1.021548787, 1.021545465];
-    //             break;
-    //         case "grid10":
-    //             dataY = ['CO', 320, 323, 323, 322, 323, 322, 325, 330, 330, 331, 332, 332, 335, 334, 334, 333, 331, 330, 329, 331, 332, 331, 332, 330];
-    //             break;
-    //     }
-    // } else {
-    //     switch (chartId) {
-    //         case "grid0":
-    //             dataY = ['Temperatura', 28, 27, 30, 29, 30, 31, 29, 27, 30, 28, 27, 29, 30, 28, 27, 28, 29, 30, 31, 30, 29, 27, 28, 30];
-    //             break;
-    //         case "grid1":
-    //             dataY = ['Pressao atmostérica', 1.03567, 1.04654, 1.02654, 1.02546, 1.01646, 1.0243564, 1.037857, 1.025465, 1.024345, 1.01654, 1.025455, 1.03546, 1.036485, 1.0446487, 1.038548, 1.031545, 1.02865, 1.02535, 1.021545, 1.0205498, 1.0189546, 1.0175483, 1.0143738, 1.01184];
-    //             break;
-    //         case "grid2":
-    //             dataY = ['Umidade Relativa do Ar', 92, 91, 89, 87, 84, 80, 83, 85, 87, 89, 90, 94, 92, 90, 92, 94, 92, 91, 90, 93, 92, 90, 89, 91];
-    //             break;
-    //         case "grid3":
-    //             dataY = ['Vento', 11.5654, 11.52443, 11.454, 13.0483, 12.7853, 12.58483, 12.38483, 11.957847, 11.6548, 11.48583, 11.28483, 11.13032, 11.28473, 11.39493, 11.485493, 11.69854, 11.7584, 11.85494, 11.6757, 11.47573, 11.3843, 11.2483, 11.187347];
-    //             break;
-    //         case "grid4":
-    //             dataY = ['UV', 3.2865, 3.35434, 3.5433, 3.6544, 3.5433, 3.35433, 3.4332, 3.4323, 3.2453, 3.15433, 3.25433, 3.45433, 3.35444, 2.596954, 2.38844, 2.495954, 2.56945, 2.695954, 2.48584, 2.39858, 2.49594, 2.3498685, 2.29584, 2.30584];
-    //             break;
-    //         case "grid5":
-    //             dataY = ['CO2', 322, 320, 321, 323, 324, 325, 327, 330, 328, 328, 329, 332, 330, 333, 334, 335, 332, 330, 331, 329, 328, 330, 332, 333];
-    //             break;
-    //         case "grid6":
-    //             dataY = ['SO2', 325, 328, 329, 331, 328, 325, 324, 327, 328, 329, 330, 334, 337, 339, 336, 335, 333, 331, 330, 328, 330, 333, 334, 335];
-    //             break;
-    //         case "grid7":
-    //             dataY = ['Material particulado', 325, 327, 329, 327, 324, 322, 321, 324, 326, 329, 331, 330, 333, 335, 338, 334, 332, 330, 328, 330, 332, 334, 332, 329];
-    //             break;
-    //         case "grid8":
-    //             dataY = ['Nível da água', 12.35434, 12.28655, 12.3944, 12.4856, 12.5848, 12.49544, 12.398548, 12.29848, 12.18383, 12.20948, 12.39848, 12.49598, 12.38484, 12.45844, 12.586585, 12.60459, 12.79594, 12.6875478, 12.58484, 12.6985, 12.705484, 12.75844, 12.77494, 12.894857];
-    //             break;
-    //         case "grid9":
-    //             dataY = ['Precipitação', 1.03453, 1.03094, 1.02849, 1.021838, 1.0204831, 1.0183872, 1.0283873, 1.0394934, 1.025848, 1.0205984, 1.084944, 1.020493, 1.0229848, 1.024838, 1.0387387, 1.049933, 1.039483, 1.0302392, 1.028473, 1.026373, 1.0239493, 1.020493, 1.022898, 1.025949];
-    //             break;
-    //         case "grid10":
-    //             dataY = ['CO', 325, 326, 324, 322, 321, 320, 323, 326, 329, 330, 331, 333, 334, 332, 331, 330, 332, 329, 327, 329, 330, 332, 333, 334];
-    //             break;
-    //     }
-    // }
-    //
-    // return [dataX, dataY];
 }
 
 

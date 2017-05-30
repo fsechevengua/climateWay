@@ -39,7 +39,7 @@ app.post('/weatherData', function(req, res, next) {
             $lte: new Date(req.body.date+"T23:59:59.000Z")
         },
         "sensor_code": parseInt(req.body.sensor_code),
-        "device_code": 213981004
+        "device_code": 2301101
     }).toArray(function(err, results) {
         responseData.payload = results;
         res.contentType('application/json');

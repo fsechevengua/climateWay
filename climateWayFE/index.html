@@ -129,7 +129,7 @@
 		#timeSeriesArea5 {
 			margin-top: 20px;
 			width: 950px;
-			height: 600px;
+			height: 710px;
 			text-align: center;
 			border: 1px solid #aaaaaa;
 		}
@@ -218,6 +218,10 @@
 			text-align: center;
 		}
 
+		.minichartWindCO2 {
+			margin-top: 25px;
+		}
+
 		.glyphicon-refresh-animate {
 			-animation: spin 1s infinite linear;
 			-webkit-animation: spin2 1s infinite linear;
@@ -242,9 +246,6 @@
 			<div class="text-center">
 				<h2>Weather Workstation</h3>
 			</div>
-			<!--	<div class="col-md-4"> 
-				Full View<input type="checkbox" name="my-checkbox" checked>
-			</div> -->
 		</div>
 	</div>
 	<div class="row">
@@ -295,16 +296,6 @@
 			<div role="tabpanel" class="tab-pane fade in active" id="dayseven"></div>
 		</div>
 	</div>
-	<!--<div class="col-sm-2">
-				<div class="form-group">
-					<div class="input-group date" id="datetimepicker1">
-						<input type="text" class="form-control" />
-						<span class="input-group-addon">
-						<span class="glyphicon glyphicon-calendar"></span>
-						</span>
-					</div>
-				</div>
-			</div>-->
 	<div style="float:left">
 		<table class="table table-bordered grid-charts">
 			<tbody>
@@ -314,7 +305,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font celcius-data"></div>
 							<i class="larger-icon celcius-icon wi wi-celsius"></i>
-							<!--<i class="weather-icon wi wi-thermometer"></i>-->
 						</div>
 						<div id="minicharttest0"></div>
 					</td>
@@ -323,7 +313,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font pressure-data"></div>
 							<i class="units-font">bar</i>
-							<!--<i class="weather-icon wi wi-barometer"></i>-->
 						</div>
 						<div id="minicharttest1"></div>
 					</td>
@@ -331,30 +320,26 @@
 						<div class="location-font">Umidade relativa do ar</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font humidity-data"></div>
-							<!--<i class="weather-icon wi wi-humidity"></i>-->
 						</div>
 						<div id="minicharttest2"></div>
 					</td>
 
 				</tr>
 				<tr height="150px">
-					<td id="grid3" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
+					<td id="grid3" data-sensor="5" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Vento</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font wind-direction-data"></div>
 							<i class="larger-icon celcius-icon wi wi-degrees"></i>
 							<i class="wind-icon wi wi-wind towards-90-deg"></i>
 						</div>
-						<!--<div class="celcius-font wind-speed-data"></div>-->
-						<!--<i class="units-font">m/s</i>-->
-						<div id="minicharttest3"></div>
+						<div id="minicharttest3" class="minichartWindCO2"></div>
 					</td>
 					<td id="grid4" draggable="true" ondragstart="drag(event)" data-toggle="modal" data-target="#myModal" class="center-chart celcius-cell">
 						<div class="location-font">Luminosidade</div>
 						<div style="margin-left:60px" class="progress-bar"></div>
 						<div style="padding-top:20px">
 							<div class="celcius-font luminocity-data"></div>
-							<!--<i class="weather-icon wi wi-day-sunny"></i>-->
 						</div>
 						<div class="celcius-font uv-data"></div>
 						<i class="units-font">UV</i>
@@ -365,9 +350,8 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font co2-data"></div>
 							<i class="units-font">ppm</i>
-							<!--<i class="chemistry-icon">CO2</i>-->
 						</div>
-						<div id="minicharttest5"></div>
+						<div id="minicharttest5" class="minichartWindCO2"></div>
 					</td>
 				</tr>
 				<tr height="150px">
@@ -376,7 +360,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font so2-data"></div>
 							<i class="units-font">ppm</i>
-							<!--<i class="chemistry-icon">S02</i>-->
 						</div>
 						<div id="minicharttest6"></div>
 					</td>
@@ -385,7 +368,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font pm-data"></div>
 							<i class="units-font">ppm</i>
-							<!--<i class="chemistry-icon">PM</i>-->
 						</div>
 						<div id="minicharttest7"></div>
 					</td>
@@ -394,7 +376,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font water-level-data"></div>
 							<i class="units-font">m</i>
-							<!--<i class="weather-icon wi wi-flood"></i>-->
 						</div>
 						<div id="minicharttest8"></div>
 					</td>
@@ -405,7 +386,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font pricipitation-data"></div>
 							<i class="units-font">mm</i>
-							<!--<i class="weather-icon wi wi-raindrop"></i>-->
 						</div>
 						<div id="minicharttest9"></div>
 					</td>
@@ -414,7 +394,6 @@
 						<div style="padding-top:30px">
 							<div class="celcius-font co-data"></div>
 							<i class="units-font">ppm</i>
-							<!--<i class="chemistry-icon">CO</i>-->
 						</div>
 						<div id="minicharttest10"></div>
 					</td>
@@ -422,7 +401,6 @@
 						<div class="location-font">Chuva</div>
 						<div style="padding-top:30px">
 							<div class="celcius-font raining-data"></div>
-							<!--<i class="weather-icon wi wi-showers"></i>-->
 						</div>
 					</td>
 				</tr>
@@ -434,21 +412,6 @@
 			<div id="timeSeriesArea5" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag-text">
 				<span>Drag Here to generate chart</span>
 			</div>
-			<!--<div id="timeSeriesArea1" ondrop="drop(event)" ondragover="allowDrop(event)">
-				<div class="drag-text">Drag Here to generate chart</div>
-			</div>
-
-			<div id="timeSeriesArea2" ondrop="drop(event)" ondragover="allowDrop(event)">
-				<div class="drag-text">Drag Here to generate chart</div>
-			</div>
-
-			<div id="timeSeriesArea3" ondrop="drop(event)" ondragover="allowDrop(event)">
-				<div class="drag-text">Drag Here to generate chart</div>
-			</div>
-
-			<div id="timeSeriesArea4" ondrop="drop(event)" ondragover="allowDrop(event)">
-				<div class="drag-text">Drag Here to generate chart</div>
-			</div>-->
 		</div>
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog modal-lg" role="document">
