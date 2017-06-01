@@ -46,31 +46,61 @@ function generateTimeSeriesChartFullView(DropAreaId, chartType, dataY) {
     var dataYAux = dataY.slice();
     var dataWihoutLabel = dataYAux.splice(1, dataYAux.length);
     viewData.push(dataY);
-
-    var chart = c3.generate({
-        bindto: "#" + DropAreaId,
-        data: {
-            x: 'x',
-            xFormat: '%H:%M',
-            columns: viewData
-        },
-        zoom: {
-            enabled: true
-        },
-        axis: {
-            x: {
-                type: 'timeseries',
-                localtime: true,
-                tick: {
-                    format: '%H:%M'
-                },
-            y: {
-                max: Math.max.apply(Math, dataWihoutLabel) + 1,
-                min: Math.min.apply(Math, dataWihoutLabel),
+    if(DropAreaId == "chart-modal"){
+        var chart = c3.generate({
+            bindto: "#" + DropAreaId,
+            size: {
+                height: 600,
+                width: 950
+            },
+            data: {
+                x: 'x',
+                xFormat: '%H:%M',
+                columns: viewData
+            },
+            zoom: {
+                enabled: true
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    localtime: true,
+                    tick: {
+                        format: '%H:%M'
+                    },
+                y: {
+                    max: Math.max.apply(Math, dataWihoutLabel) + 1,
+                    min: Math.min.apply(Math, dataWihoutLabel),
+                    }
                 }
             }
-        }
-    });
+        });
+    }else{
+        var chart = c3.generate({
+            bindto: "#" + DropAreaId,
+            data: {
+                x: 'x',
+                xFormat: '%H:%M',
+                columns: viewData
+            },
+            zoom: {
+                enabled: true
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    localtime: true,
+                    tick: {
+                        format: '%H:%M'
+                    },
+                y: {
+                    max: Math.max.apply(Math, dataWihoutLabel) + 1,
+                    min: Math.min.apply(Math, dataWihoutLabel),
+                    }
+                }
+            }
+        });
+    }
 }
 
 function generateChart(locator, xLabel, yLabel, chartType, dataY) {
@@ -117,16 +147,17 @@ function generateChart(locator, xLabel, yLabel, chartType, dataY) {
 
 var lastChartModal = "";
 
-$("#myModal").on('show.bs.modal', function(event) {
+$("#myModal").on('show.bs.modal', function(ev) {
 
-    d3.select("#chart svg").remove();
+    d3.select("#chart-modal svg").remove();
     //Parei aqui
-    var data = getWeatherData(event.relatedTarget.id);
-    var dataXModal = data[0];
-    var dataYModal = data[1];
-    $('.chart-name').html(dataY[0]);
-    lastChartModal = event.relatedTarget.id;
-    generateChart("#chart", "Tempo", dataY[0], 'area', dataY);
+
+    
+    var gridNumber = ev.relatedTarget.id
+    var weatherVarName = document.getElementById(gridNumber).getElementsByClassName('location-font')[0].innerText;
+    var sensor_code = document.getElementById(gridNumber).getAttribute('data-sensor');
+    $('#chart-modal').html("<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></div>");
+    getWeatherData(weatherVarName, sensor_code, "chart-modal");
 });
 
 $(".chart-type").on('change', function() {
@@ -134,12 +165,12 @@ $(".chart-type").on('change', function() {
         var data = getWeatherData(lastChartModal);
         var dataX = data[0];
         var dataY = data[1];
-        generateChart("#chart", "Tempo", "Temperatura", $(this).val(), dataY);
+        generateChart("#chart-modal", "Tempo", "Temperatura", $(this).val(), dataY);
     });
 });
 
 $("#myModal").on('hidden.bs.modal', function() {
-    d3.select("#chart svg").remove();
+    d3.select("#chart-modal svg").remove();
 });
 
 function allowDrop(ev) {
@@ -156,7 +187,7 @@ function drop(ev, ui) {
     var gridNumber = ev.dataTransfer.getData("text");
     var weatherVarName = document.getElementById(gridNumber).getElementsByClassName('location-font')[0].innerText;
     var sensor_code = document.getElementById(gridNumber).getAttribute('data-sensor');
-    getWeatherData(gridNumber, weatherVarName, sensor_code, ev.currentTarget.id);
+    getWeatherData(weatherVarName, sensor_code, ev.currentTarget.id);
 }
 
 function windDirection() {
@@ -230,17 +261,17 @@ document.addEventListener("getWeatherData", function(e) {
     var dataY = result.data;
     //Limpa a variável x para receber as novas datas
     dataX = [];
-    if (result.target == "timeSeriesArea5") {
+    //if (result.target == "timeSeriesArea5") {
         dataX.push("x");
         dataX = dataX.concat(result.dates);
         generateTimeSeriesChartFullView(result.target , "area", dataY);
-    } else {
-        generateTimeSeriesChart(result.target , "area", dataY);
-    }
+    //} else {
+        //generateTimeSeriesChart(result.target , "area", dataY);
+    //}
     $("#timeSeriesArea5").removeClass("drag-text");
 });
 
-function getWeatherData(chartId, weatherVarName, sensor_code, target) {
+function getWeatherData(weatherVarName, sensor_code, target) {
 
     var weatherDataCall = $.ajax({
         url: "http://localhost:9000/weatherData",
