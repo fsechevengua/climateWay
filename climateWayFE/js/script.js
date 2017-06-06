@@ -3,20 +3,97 @@
 var dataX = [];
 var weatherDate = $.format.date(new Date(), "yyyy-MM-dd");
 
-function generateTimeSeriesChart(DropAreaId, chartType, dataY) {
+//Gerar gráfico em diálogo
+var dialogData;
+var dataYDialog;
+function generateChartDialog(DropAreaId, chartType, dataY) {
+    dialogData = [dataX];
+    dataYDialog = dataY.slice();
+    var dataWihoutLabel = dataYDialog.splice(1, dataYDialog.length);
+    dialogData.push(dataY);
+    c3.generate({
+            bindto: "#" + DropAreaId,
+            size: {
+                height: 600,
+                width: 950
+            },
+            data: {
+                x: 'x',
+                xFormat: '%H:%M',
+                columns: dialogData,
+                type: 'line'
+            },
+            zoom: {
+                enabled: true
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    localtime: true,
+                    tick: {
+                        format: '%H:%M'
+                    },
+                y: {
+                    max: Math.max.apply(Math, dataWihoutLabel) + 1,
+                    min: Math.min.apply(Math, dataWihoutLabel),
+                    }
+                }
+            }
+        });
+};
+
+//Trocar tipo de gráfico
+$(".chart-type").on('change', function() {
+    $("select option:selected").each(function() {
+        var dataWihoutLabel = dataYDialog.splice(1, dataYDialog.length);
+        c3.generate({
+            bindto: "#chart-modal",
+            size: {
+                height: 600,
+                width: 950
+            },
+            data: {
+                x: 'x',
+                xFormat: '%H:%M',
+                columns: dialogData,
+                type: $(this).val()
+            },
+            zoom: {
+                enabled: true
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    localtime: true,
+                    tick: {
+                        format: '%H:%M'
+                    },
+                y: {
+                    max: Math.max.apply(Math, dataWihoutLabel) + 1,
+                    min: Math.min.apply(Math, dataWihoutLabel),
+                    }
+                }
+            }
+        });
+    });
+});
+
+
+//Cruzamento de dados
+var viewData = [];
+
+function generateChartDrop(DropAreaId, chartType, dataY) {
+    if(viewData.length == 0)
+        viewData = [dataX];
     var dataYAux = dataY.slice();
     var dataWihoutLabel = dataYAux.splice(1, dataYAux.length);
-    
-    var chart = c3.generate({
+    viewData.push(dataY);
+    c3.generate({
         bindto: "#" + DropAreaId,
         data: {
             x: 'x',
-            xFormat: '%H:%M:%S',
-            columns: [
-                dataX,
-                dataY,
-            ],
-            type: chartType
+            xFormat: '%H:%M',
+            columns: viewData
         },
         zoom: {
             enabled: true
@@ -28,145 +105,22 @@ function generateTimeSeriesChart(DropAreaId, chartType, dataY) {
                 tick: {
                     format: '%H:%M'
                 },
-            },
             y: {
-                max: Math.max.apply(Math, dataWihoutLabel),
+                max: Math.max.apply(Math, dataWihoutLabel) + 1,
                 min: Math.min.apply(Math, dataWihoutLabel),
+                }
             }
         }
     });
 }
-//Cruzamento de dados
-var viewData = [];
-
-function generateTimeSeriesChartFullView(DropAreaId, chartType, dataY) {
-    if(viewData.length == 0)
-        viewData = [dataX];
-
-    var dataYAux = dataY.slice();
-    var dataWihoutLabel = dataYAux.splice(1, dataYAux.length);
-    viewData.push(dataY);
-    if(DropAreaId == "chart-modal"){
-        var chart = c3.generate({
-            bindto: "#" + DropAreaId,
-            size: {
-                height: 600,
-                width: 950
-            },
-            data: {
-                x: 'x',
-                xFormat: '%H:%M',
-                columns: viewData
-            },
-            zoom: {
-                enabled: true
-            },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    localtime: true,
-                    tick: {
-                        format: '%H:%M'
-                    },
-                y: {
-                    max: Math.max.apply(Math, dataWihoutLabel) + 1,
-                    min: Math.min.apply(Math, dataWihoutLabel),
-                    }
-                }
-            }
-        });
-    }else{
-        var chart = c3.generate({
-            bindto: "#" + DropAreaId,
-            data: {
-                x: 'x',
-                xFormat: '%H:%M',
-                columns: viewData
-            },
-            zoom: {
-                enabled: true
-            },
-            axis: {
-                x: {
-                    type: 'timeseries',
-                    localtime: true,
-                    tick: {
-                        format: '%H:%M'
-                    },
-                y: {
-                    max: Math.max.apply(Math, dataWihoutLabel) + 1,
-                    min: Math.min.apply(Math, dataWihoutLabel),
-                    }
-                }
-            }
-        });
-    }
-}
-
-function generateChart(locator, xLabel, yLabel, chartType, dataY) {
-    var dataYAux = dataY.slice();
-    var dataWihoutLabel = dataYAux.splice(1, dataYAux.length);
-    var chart = c3.generate({
-        bindto: locator,
-        size: {
-            height: 600,
-            width: 950
-        },
-        data: {
-            x: 'x',
-            xFormat: '%Y-%m-%d %H:%M:%S',
-            columns: [
-                dataX,
-                dataY,
-            ],
-            type: chartType
-        },
-        zoom: {
-            enabled: true
-        },
-        subchart: {
-            show: true
-        },
-        axis: {
-            x: {
-                label: xLabel,
-                type: 'timeseries',
-                localtime: false,
-                tick: {
-                    format: '%H:%M'
-                },
-            },
-            y: {
-                label: yLabel,
-                max: Math.max.apply(Math, dataWihoutLabel),
-                min: Math.min.apply(Math, dataWihoutLabel),
-            }
-        }
-    });
-}
-
-var lastChartModal = "";
 
 $("#myModal").on('show.bs.modal', function(ev) {
-
     d3.select("#chart-modal svg").remove();
-    //Parei aqui
-
-    
     var gridNumber = ev.relatedTarget.id
     var weatherVarName = document.getElementById(gridNumber).getElementsByClassName('location-font')[0].innerText;
     var sensor_code = document.getElementById(gridNumber).getAttribute('data-sensor');
-    $('#chart-modal').html("<span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></div>");
+    $('#chart-modal').html("<div style='text-align: center; width: 950px; height: 600px; line-height: 600px; font-size: 30px;'><span class='glyphicon glyphicon-refresh glyphicon-refresh-animate'></span></div>");
     getWeatherData(weatherVarName, sensor_code, "chart-modal");
-});
-
-$(".chart-type").on('change', function() {
-    $("select option:selected").each(function() {
-        var data = getWeatherData(lastChartModal);
-        var dataX = data[0];
-        var dataY = data[1];
-        generateChart("#chart-modal", "Tempo", "Temperatura", $(this).val(), dataY);
-    });
 });
 
 $("#myModal").on('hidden.bs.modal', function() {
@@ -228,29 +182,6 @@ $("#datetimepicker1").on("dp.change", function(e) {
     loadTableDate();
 });
 
-$("[name='my-checkbox']").bootstrapSwitch();
-
-$('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function(event, state) {
-    dataYFullView = [dataX];
-    if (!state)
-        $('.chart-area').html("<div id=\"timeSeriesArea5\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\"><div class='drag-text'>Drag Here to generate chart</div></div>");
-    else {
-        $('.chart-area').html(
-            "<div id=\"timeSeriesArea1\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\">" +
-            "<div class='drag-text'>Drag Here to generate chart</div>" +
-            "</div>" +
-            "<div id=\"timeSeriesArea2\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\">" +
-            "<div class='drag-text'>Drag Here to generate chart</div>" +
-            "</div>" +
-            "<div id=\"timeSeriesArea3\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\">" +
-            "<div class='drag-text'>Drag Here to generate chart</div>" +
-            "</div>" +
-            "<div id=\"timeSeriesArea4\" ondrop=\"drop(event)\" ondragover=\"allowDrop(event)\">" +
-            "<div class='drag-text'>Drag Here to generate chart</div>" +
-            "</div>");
-    }
-});
-
 $(document).ready(function() {
     windDirection();
     generateLightnessBar(635);
@@ -261,14 +192,14 @@ document.addEventListener("getWeatherData", function(e) {
     var dataY = result.data;
     //Limpa a variável x para receber as novas datas
     dataX = [];
-    //if (result.target == "timeSeriesArea5") {
-        dataX.push("x");
-        dataX = dataX.concat(result.dates);
-        generateTimeSeriesChartFullView(result.target , "area", dataY);
-    //} else {
-        //generateTimeSeriesChart(result.target , "area", dataY);
-    //}
-    $("#timeSeriesArea5").removeClass("drag-text");
+    dataX.push("x");
+    dataX = dataX.concat(result.dates);
+    if (result.target == "timeSeriesArea5") {
+        generateChartDrop(result.target , "area", dataY);
+        $("#timeSeriesArea5").removeClass("drag-text");
+    } else {
+        generateChartDialog(result.target , "area", dataY);
+    }
 });
 
 function getWeatherData(weatherVarName, sensor_code, target) {
