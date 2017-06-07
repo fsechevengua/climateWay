@@ -35,8 +35,10 @@ app.post('/weatherData', function(req, res, next) {
     var records = [];
     collection.find({
         "ts": {
-            $gte: new Date("2017-05-05T00:00:00.000Z"),//req.body.date+"T00:00:00.000Z"),
-            $lte: new Date("2017-05-05T23:59:59.000Z")//req.body.date+"T23:59:59.000Z")
+            $gte: new Date("2017-05-05T00:00:00.000Z"),
+            $lte: new Date("2017-05-05T23:59:59.000Z")
+            //$gte: new Date(req.body.date + "T00:00:00.000Z"),
+            //$lte: new Date(req.body.date + "T23:59:59.000Z")
         },
         "sensor_code": parseInt(req.body.sensor_code),
         "device_code": 888011
@@ -47,5 +49,4 @@ app.post('/weatherData', function(req, res, next) {
     });
 });
 
-// Aplicação disponível em http://127.0.0.1:9000/
 app.listen(9000);
