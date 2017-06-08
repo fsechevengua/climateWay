@@ -1,6 +1,9 @@
 // var dataX = ['x', '2016-06-26 17:00:00', '2016-06-26 17:10:00', '2016-06-26 17:20:00', '2016-06-26 17:30:00', '2016-06-26 17:40:00', '2016-06-26 17:50:00', '2016-06-26 18:00:00', '2016-06-26 18:10:00', '2016-06-26 18:20:00', '2016-06-26 18:30:00', '2016-06-26 18:40:00', '2016-06-26 18:50:00', '2016-06-26 19:00:00', '2016-06-26 19:10:00', '2016-06-26 19:20:00', '2016-06-26 19:30:00', '2016-06-26 19:40:00', '2016-06-26 19:50:00', '2016-06-26 20:00:00', '2016-06-26 20:10:00', '2016-06-26 20:20:00', '2016-06-26 20:30:00', '2016-06-26 20:40:00', '2016-06-26 20:50:00', '2016-06-26 21:00:00'];
 //var dataX = ['x', '00:00:00', '01:00:00', '02:00:00', '03:00:00', '04:00:00', '05:00:00', '06:00:00', '07:00:00', '08:00:00', '09:00:00', '10:00:00', '11:00:00', '12:00:00', '13:00:00', '14:00:00', '15:00:00', '16:00:00', '17:00:00', '18:00:00', '19:00:00', '20:00:00', '21:00:00', '22:00:00', '23:00:00'];
-
+$(document).ready(function() {
+    loadTableDate();
+    generateMiniCharts();
+});
 // X axis for cross data
 var dataX = [];
 // Date to get the data
@@ -206,9 +209,8 @@ document.addEventListener("getWeatherData", function(e) {
 });
 
 function getWeatherData(weatherVarName, sensor_code, target) {
-
     var weatherDataCall = $.ajax({
-        url: "http://localhost:9000/weatherData",
+        url: "http://localhost:9000/dateWeatherData",
         type: "POST",
         data: {
             date: weatherDate,
@@ -348,10 +350,6 @@ function loadTableDate() {
     }
 }
 
-$(document).ready(function() {
-    loadTableDate();
-});
-
 $("#dayslist a").click(function (e) {
   e.preventDefault()
   weatherDate = $.format.date(new Date(this.innerHTML), "yyyy-dd-MM");
@@ -373,40 +371,62 @@ $( "li[role='presentation'] a" ).each(function( index ) {
     this.append(now);
 });
 
+
+function getWeatherDataFromResult(data, sensorCode){
+    var result = ['sample'];
+    $.each( data, function( i, val ) {
+        if(val.sensor_code == sensorCode)
+            result.push(val.payload);
+    });
+    return result;
+};
+
 function generateMiniCharts(){
-    var colors = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5'];
-    for(i=0; i < 12; i++){
-        var minichart = c3.generate({
-            bindto: "#minicharttest" + i,
-            size: {
-                height: 60,
-                width: 200
-            },
-            data: {
-                columns: [
-                    ['sample', 30, 200, 100, 400, 150, 250]
-                ],
-                type: 'area-spline',
-            },
-            axis:{
-                x:{
-                    show:false
+    
+    var weatherDataCall = $.ajax({
+        url: "http://localhost:9000/weatherData",
+        type: "GET",
+        data: {
+            date: weatherDate,
+        }
+    });
+
+    var weatherDataPromise = Promise.resolve(weatherDataCall).then(function(data){
+        var sensorOrder = [2,6,32,3,7,7,7,4,34,33,7];
+        var colors = ['#1f77b4', '#aec7e8', '#ff7f0e', '#ffbb78', '#2ca02c', '#98df8a', '#d62728', '#ff9896', '#9467bd', '#c5b0d5', '#8c564b', '#c49c94', '#e377c2', '#f7b6d2', '#7f7f7f', '#c7c7c7', '#bcbd22', '#dbdb8d', '#17becf', '#9edae5'];
+        for(i=0; i < 11; i++){
+            var weatherDta = getWeatherDataFromResult(data.payload, sensorOrder[i]);
+            var minichart = c3.generate({
+                bindto: "#minicharttest" + i,
+                size: {
+                    height: 60,
+                    width: 200
                 },
-                y:{
-                    show:false
+                data: {
+                    columns: [
+                        weatherDta
+                    ],
+                    type: 'area-spline',
+                },
+                axis:{
+                    x:{
+                        show:false
+                    },
+                    y:{
+                        show:false
+                    }
+                },
+                legend: {
+                    show: false
+                },
+                color: {
+                    pattern: [colors[Math.floor(Math.random()*colors.length)]]
+                },
+                point: {
+                    show: false
                 }
-            },
-            legend: {
-                show: false
-            },
-            color: {
-                pattern: [colors[Math.floor(Math.random()*colors.length)]]
-            },
-            point: {
-                show: false
-            }
-            
-        });
-    }
-}
-generateMiniCharts();
+                
+            });
+        }
+    });
+};
